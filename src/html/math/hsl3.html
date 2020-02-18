@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - HSLカラー(グラフィックの色を時間経過で変化させる)</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>HSLカラー(グラフィックの色を時間経過で変化させる)</h1>
+    <pre><code>
+    // HSLカラーを算出する
+    // ※ 色相が360度を超えた場合、色相は0度と同じ赤色を示します
+    // ※ 2周しても3周しても、360度で割った余りの数値と同じカラーが得られます
+    // ※ 色相環と呼ばれるとおり、何周しても同じ場所を指し示します
+    var color = "hsl(" + hue + ", 100%, 50%)";
+
+    shape.graphics.clear()
+        .beginFill(color)
+        .drawCircle(320, 100, 80);
+
+    // 色相を変化させる
+    hue += 1.0;
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="460"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンパスを準備する
+            var stage = new createjs.Stage("myCanvas");
+
+            // 円を追加する
+            var shape = new createjs.Shape();
+            stage.addChild(shape);
+
+            // 色相
+            var hue = 0;
+
+            // 時間経過イベント
+            createjs.Ticker.addEventListener("tick", function() {
+                // HSLカラーを算出する
+                var color = "hsl(" + hue + ", 100%, 50%)";
+
+                shape.graphics.clear()
+                    .beginFill(color)
+                    .drawCircle(320, 100, 80);
+
+                // 色相を変化させる
+                hue += 1.0;
+
+                // 画面更新
+                stage.update();
+            });
+
+            // 画面更新の頻度を60FPSに設定する
+            createjs.Ticker.timingMode = createjs.Ticker.RAF;
+        }
+    </script>
+</body>
+</html>

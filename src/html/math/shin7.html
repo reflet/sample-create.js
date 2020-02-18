@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - 三角関数を利用したモーション(楕円運動)</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>三角関数を利用したモーション(楕円運動)</h1>
+    <pre><code>
+    var angle   = 0;
+    var centerX = 320;  // 楕円の中心(X)
+    var centerY = 100;  // 楕円の中心(Y)
+    var radiusX = 200;  // X軸は長くする
+    var radiusY = 80;   // Y軸は短くする
+    var speed   = 0.05; // ボールのスピード
+
+    // 時間経過イベント
+    createjs.Ticker.addEventListener("tick", function() {
+        ball.x = centerX + Math.cos(angle) * radiusX;
+        ball.y = centerY + Math.sin(angle) * radiusY;
+        angle += speed;
+        ...
+    });
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="460"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンパスを準備する
+            var stage = new createjs.Stage("myCanvas");
+
+            // ボールを追加する
+            var ball = new createjs.Shape();
+            ball.graphics.beginFill("DarkRed").drawCircle(0, 0, 10);
+            stage.addChild(ball);
+
+            var angle   = 0;
+            var centerX = 320;  // 楕円の中心(X)
+            var centerY = 100;  // 楕円の中心(Y)
+            var radiusX = 200;  // X軸は長くする
+            var radiusY = 80;   // Y軸は短くする
+            var speed   = 0.05; // ボールのスピード
+
+            // 時間経過イベント
+            createjs.Ticker.addEventListener("tick", function() {
+                ball.x = centerX + Math.cos(angle) * radiusX;
+                ball.y = centerY + Math.sin(angle) * radiusY;
+                angle += speed;
+
+                // 画面更新
+                stage.update();
+            });
+
+            // 解説用として円の軌道を描いておく
+            var bg = new createjs.Shape();
+            bg.graphics
+                .setStrokeStyle(1)
+                .beginStroke("LightGray")
+                .drawEllipse(centerX - radiusX, centerY - radiusY, radiusX * 2, radiusY * 2);
+            stage.addChildAt(bg, 0);
+
+            // 画面更新の頻度を60FPSに設定する
+            createjs.Ticker.timingMode = createjs.Ticker.RAF;
+        }
+    </script>
+</body>
+</html>

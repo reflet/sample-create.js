@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - 三角関数の活用(マウスの方向を向かせる)</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>三角関数の活用(マウスの方向を向かせる)</h1>
+    <pre><code>
+    var radians = Math.atan2(dy, dx);         // ラジアン角を求める (アークタンジェント関数)
+    arrow.rotation = radians * 180 / Math.PI; // 角度 = ラジアン角 * 180 / 円周率(3.14159)
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="460"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンパスを準備する
+            var stage = new createjs.Stage("myCanvas");
+
+            // 矢印を追加する
+            var arrow = new createjs.Shape();
+            arrow.graphics // 四角形を描く
+                .beginFill("DarkRed")
+                .drawRect(-6, -3, 12, 6);
+            arrow.graphics // 三角形を描く
+                .beginFill("DarkRed")
+                .moveTo(5, 10)
+                .lineTo(15, 0)
+                .lineTo(5, -10)
+                .closePath();
+            arrow.x = stage.canvas.width / 2;  // 画面中央に配置(X)
+            arrow.y = stage.canvas.height / 2; // 画面中央に配置(Y)
+            stage.addChild(arrow);
+
+            // 時間経過イベント
+            createjs.Ticker.addEventListener("tick", function() {
+                var dx = stage.mouseX - arrow.x,  // マウス座標との差分を計算(X)
+                    dy = stage.mouseY - arrow.y,  // マウス座標との差分を計算(Y)
+                    radians = Math.atan2(dy, dx); // 差分を元に方向を計算
+
+                // ラジアンを角度に変換して表示オブジェクトに反映する
+                arrow.rotation = radians * 180 / Math.PI;
+
+                // 画面更新
+                stage.update();
+            });
+
+            // 画面更新を60FPSに設定する
+            createjs.Ticker.timingMode = createjs.Ticker.RAF;
+        }
+    </script>
+</body>
+</html>

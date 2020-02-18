@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - 三角関数を利用したモーション(三角波を描く)</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>三角関数を利用したモーション(三角波を描く)</h1>
+    <pre><code>
+    // X座標の計算
+    px += speedX;
+
+    // Y座標の計算
+    var py = centerY + Math.sin(angleY) * range;
+    angleY += speedY;
+
+    // 線を描画
+    shape.graphics.lineTo(px, py);
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="460"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // 初期化
+            var stage = new createjs.Stage("myCanvas");
+
+            // ボールを作成
+            var shape = new createjs.Shape();
+            stage.addChild(shape);
+
+            var angleY = 0;
+            var centerY = 100;
+            var range = 50;
+            var speedX = 1;
+            var speedY = 0.05;
+
+            var px = 0;
+
+            shape.graphics
+                .setStrokeStyle(1)
+                .beginStroke("DarkRed")
+                .moveTo(0, centerY);
+
+            // 時間経過
+            createjs.Ticker.addEventListener("tick", function() {
+                // X座標の計算
+                px += speedX;
+
+                // Y座標の計算
+                var py = centerY + Math.sin(angleY) * range;
+                angleY += speedY;
+
+                // 線を描画
+                shape.graphics.lineTo(px, py);
+
+                // 画面更新
+                stage.update();
+            });
+
+            // 画面更新の頻度を60FPSに設定する
+            createjs.Ticker.timingMode = createjs.Ticker.RAF;
+        }
+    </script>
+</body>
+</html>

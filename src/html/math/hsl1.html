@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - HSLカラー(ランダムな色の円を配置する)</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>HSLカラー(ランダムな色の円を配置する)</h1>
+    <pre><code>
+    // HSLカラーを算出する(ランダム 0〜360)
+    var hue = 360 * Math.random(),
+        color = "hsl(" + hue + ", 100%, 50%)";
+
+    // 座標計算
+    var x = stage.canvas.width * Math.random(),  // ランダムな座標(X)
+        y = stage.canvas.height * Math.random(); // ランダムな座標(Y)
+
+    // 円を追加する
+    var shape = new createjs.Shape();
+    shape.graphics
+        .clear()
+        .beginFill(color)
+        .drawCircle(x, y, 20);
+    stage.addChild(shape);
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="460"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンパスを準備する
+            var stage = new createjs.Stage("myCanvas");
+
+            for (var i = 0; i < 100; i++) {
+                // HSLカラーを算出する(ランダム 0〜360)
+                var hue = 360 * Math.random(),
+                    color = "hsl(" + hue + ", 100%, 50%)";
+
+                // 座標計算
+                var x = stage.canvas.width * Math.random(),  // ランダムな座標(X)
+                    y = stage.canvas.height * Math.random(); // ランダムな座標(Y)
+
+                // 円を追加する
+                var shape = new createjs.Shape();
+                shape.graphics
+                    .clear()
+                    .beginFill(color)
+                    .drawCircle(x, y, 20);
+                stage.addChild(shape);
+            }
+
+            // 描画更新
+            stage.update();
+        }
+    </script>
+</body>
+</html>

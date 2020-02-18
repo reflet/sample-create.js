@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - 三角関数の活用(2点間の距離を求める)</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>三角関数の活用(2点間の距離を求める)</h1>
+    <pre><code>
+    // 三平方の定理(ピタゴラスの定理)
+    // ※ 三角形の底辺と高さを二乗し、足し算して、その平方根をとると斜辺の長さになる
+    // ※ Math.sqrt関数 = 平方根を計算する
+    var distance = Math.sqrt(dx * dx + dy * dy); //
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="460"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // 初期化
+            var stage = new createjs.Stage("myCanvas");
+
+            // 空のシェイプを作成 (線の描画用)
+            var shape = new createjs.Shape();
+            stage.addChild(shape);
+
+            // ボールを作成
+            var ball = new createjs.Shape();
+            ball.graphics
+                .beginFill("DarkRed")
+                .drawCircle(0, 0, 10);
+            ball.x = stage.canvas.width / 2;  // 画面中央に配置(X)
+            ball.y = stage.canvas.height / 2; // 画面中央に配置(Y)
+            stage.addChild(ball);
+
+            var label = new createjs.Text("", "32px sans-serif", "gray");
+            stage.addChild(label);
+
+
+            // 時間経過
+            createjs.Ticker.addEventListener("tick", function () {
+                // 距離を計算
+                var dx = ball.x - stage.mouseX,
+                    dy = ball.y - stage.mouseY,
+                    distance = Math.sqrt(dx * dx + dy * dy);
+
+                // ラベルに距離を表示
+                label.text = distance + "px";
+
+                // 二点間を線分でつなぐ
+                shape.graphics.clear()
+                    .setStrokeStyle(1)
+                    .beginStroke("gray")
+                    .moveTo(ball.x, ball.y)
+                    .lineTo(stage.mouseX, stage.mouseY);
+
+                // 画面更新
+                stage.update();
+            });
+
+            // 画面更新の頻度を60FPSに設定する
+            createjs.Ticker.timingMode = createjs.Ticker.RAF;
+        }
+    </script>
+</body>
+</html>

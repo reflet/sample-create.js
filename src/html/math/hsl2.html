@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - HSLカラー(色相と彩度と明度を順番に配置する)</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>HSLカラー(色相と彩度と明度を順番に配置する)</h1>
+    <pre><code>
+    // 色相(HSLカラー)を算出する
+    hue = i * (360 / MAX); // 0〜360を等間隔に20等分した値
+    color = "hsl(" + hue + ", 100%, 50%)";
+
+    // 彩度(HSLカラー)を算出する
+    saturation = i * (100 / MAX); // 0〜100%を等間隔に20等分した値
+    color = "hsl(0, " + saturation + "%, 50%)";
+
+    // 明度(HSLカラー)を算出する
+    luminance = i * (100 / MAX); // 0〜100%を等間隔に20等分した値
+    color = "hsl(0, 100%, " + luminance + "%)";
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="460"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンパスを準備する
+            var stage = new createjs.Stage("myCanvas");
+
+            var MAX = 20;
+            var i, x, y, shape, hue, saturation, color,luminance;
+
+            // 色相
+            for (i = 0; i < MAX; i++) {
+                // HSLカラーを算出する
+                hue = i * (360 / MAX); // 0〜360を等間隔に20等分した値
+                color = "hsl(" + hue + ", 100%, 50%)";
+
+                // 座標を計算する
+                x = i * (stage.canvas.width / MAX) + 15; // 20等分して配置する座標(X)
+                y = 100;
+
+                // 円を追加する
+                shape = new createjs.Shape();
+                shape.graphics.clear()
+                    .beginFill(color)
+                    .drawCircle(x, y, 10);
+                stage.addChild(shape);
+            }
+
+            // 彩度
+            for (i = 0; i < MAX; i++) {
+                // シェイプを作成
+                shape = new createjs.Shape();
+                stage.addChild(shape);
+
+                // HSLカラーを算出する
+                saturation = i * (100 / MAX); // 0〜100%を等間隔に20等分した値
+                color = "hsl(0, " + saturation + "%, 50%)";
+
+                x = i * (stage.canvas.width / MAX) + 15;
+                y = 200;
+
+                shape.graphics.clear()
+                    .beginFill(color)
+                    .drawCircle(x, y, 10);
+            }
+
+            // 明度
+            for (i = 0; i < MAX; i++) {
+                // シェイプを作成
+                shape = new createjs.Shape();
+                stage.addChild(shape);
+
+                // HSLカラーを算出する
+                luminance = i * (100 / MAX); // 0〜100%を等間隔に20等分した値
+                color = "hsl(0, 100%, " + luminance + "%)";
+
+                x = i * (stage.canvas.width / MAX) + 15;
+                y = 300;
+
+                shape.graphics.clear()
+                    .beginFill(color)
+                    .drawCircle(x, y, 10);
+            }
+
+            // 画面更新
+            stage.update();
+        }
+    </script>
+</body>
+</html>

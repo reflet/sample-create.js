@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - HSLカラー(範囲を定めて色を時間経過で変化させる)</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>HSLカラー(範囲を定めて色を時間経過で変化させる)</h1>
+    <pre><code>
+    var angle     = 0;
+    var centerHue = 180;
+    var radius    = 80;
+    var speed     = 0.01;
+
+    // 時間経過イベント
+    createjs.Ticker.addEventListener("tick", function() {
+        // HSLカラーを算出する
+        // ※ Math.cos(angle) : 1 〜 -1
+        var hue = centerHue + Math.cos(angle) * radius; // 260〜100
+
+        shape.graphics.clear()
+            .beginFill("hsl(" + hue + ", 100%, 50%)")
+            .drawCircle(320, 100, 80);
+
+        angle += speed;
+        ...
+    });
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="460"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンパスを準備する
+            var stage = new createjs.Stage("myCanvas");
+
+            // 円を追加する
+            var shape = new createjs.Shape();
+            stage.addChild(shape);
+
+            var angle     = 0;
+            var centerHue = 180;
+            var radius    = 80;
+            var speed     = 0.01;
+
+            // 時間経過イベント
+            createjs.Ticker.addEventListener("tick", function() {
+                // HSLカラーを算出する
+                var hue = centerHue + Math.cos(angle) * radius;
+
+                shape.graphics.clear()
+                    .beginFill("hsl(" + hue + ", 100%, 50%)")
+                    .drawCircle(320, 100, 80);
+
+                angle += speed;
+
+                // 画面更新
+                stage.update();
+            });
+
+            // 画面更新の頻度を60FPSに設定する
+            createjs.Ticker.timingMode = createjs.Ticker.RAF;
+        }
+    </script>
+</body>
+</html>

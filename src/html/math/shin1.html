@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - 三角関数を利用したモーション(上下振幅のモーション)</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>三角関数を利用したモーション(上下振幅のモーション)</h1>
+    <pre><code>
+    // ボールのY座標は、50〜150の範囲で変化する
+    // ※ 三角関数のMath.sin(angle)が-1.0から+1.0までの値を返す
+    ball.y = 100 + Math.sin(angle) * 50;
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="460"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // 初期化
+            var stage = new createjs.Stage("myCanvas");
+
+            // ボールを追加する
+            var ball = new createjs.Shape();
+            ball.graphics
+                .beginFill("DarkRed")
+                .drawCircle(0, 0, 30);
+            ball.x = stage.canvas.width / 2; // 画面水平中央に配置
+            stage.addChild(ball);
+
+            // アニメーションの設定
+            var centerY = 100;
+            var range = 50;
+            var angle = 0;
+            var speed = 0.1;
+
+            // 時間経過イベント
+            createjs.Ticker.addEventListener("tick", function() {
+                ball.y = centerY + Math.sin(angle) * range;
+                angle += speed;
+
+                // 画面更新
+                stage.update();
+            });
+
+            // 画面更新の頻度を60FPSに設定する
+            createjs.Ticker.timingMode = createjs.Ticker.RAF;
+        }
+    </script>
+</body>
+</html>
