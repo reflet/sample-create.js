@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - モーションに緩急を設定する</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>モーションに緩急を設定する</h1>
+    <pre><code>
+    createjs.Tween.get({対象})
+        .to(パラメーター, ミリ秒, {イージングの種類});
+
+    イージングの種類は主に以下があります。
+    ・ease.Ease.cubicIn    ： 始まりがゆっくりで、加速していく
+    ・ease.Ease.cubicOut   ： 始まりが最高速で、減速していく
+    ・ease.Ease.cubicInOut ： 始まりがゆっくりで加速し、最後は減速する
+    ・ease.Ease.bounceOut  ： ボールが跳ね返るような動き
+    ・ease.Ease.backOut    ： 目標を行き過ぎてから戻ってくる動き
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="460"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンパスを準備する
+            var stage = new createjs.Stage("myCanvas");
+
+            // 円を追加する
+            var circle = new createjs.Shape();
+            circle.graphics
+                .beginFill("DarkRed")
+                .drawCircle(0, 0, 50);
+            circle.x = 480;
+            circle.y = 50;
+            stage.addChild(circle);
+
+            // アニメーションを設定する (跳ね返るような動き)
+            createjs.Tween.get(circle)
+                .to({y: 410}, 2000, createjs.Ease.bounceOut);
+
+            // 時間経過イベント
+            createjs.Ticker.addEventListener("tick", function() {
+                // 描画更新
+                stage.update();
+            });
+        }
+    </script>
+</body>
+</html>

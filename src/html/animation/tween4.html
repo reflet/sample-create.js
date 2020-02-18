@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - アニメーションを待機させる</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>アニメーションを待機させる</h1>
+    <pre><code>
+    createjs.Tween.get({対象})
+              .wait(2000) // 2.0 秒待機
+              .to({x: 640}, 1000)
+              .wait(1000)// 1.0 秒待機
+              .to({x: 320}, 1000);
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="460"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンパスを準備する
+            var stage = new createjs.Stage("myCanvas");
+
+            // 円を追加する
+            var circle = new createjs.Shape();
+            circle.graphics
+                .beginFill("DarkRed")
+                .drawCircle(0, 0, 50);
+            circle.x = 0;
+            circle.y = 100;
+            stage.addChild(circle);
+
+            // アニメーションを設定する
+            createjs.Tween.get(circle)
+                .wait(2000)          // 2.0 秒待機
+                .to({x: 640}, 1000)  // 右に移動する
+                .wait(1000)          // 1.0 秒待機
+                .to({x: 320}, 1000); // 左に半分戻る
+
+            // ステージを自動更新する
+            createjs.Ticker.addEventListener("tick", stage);
+            createjs.Ticker.timingMode = createjs.Ticker.RAF;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - 特定のタイミングで関数を呼ぶ</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>特定のタイミングで関数を呼ぶ</h1>
+    <pre><code>
+    createjs.Tween.get({対象})
+            .to({x: 640}, 2000)
+            .call(step1) // 関数を呼び出す
+            .to({x: 320}, 2000)
+            .call(step2); // 関数を呼び出す
+
+    function step1(){ console.log('ステップ1'); }
+    function step2(){ console.log('ステップ2'); }
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="460"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンパスを準備する
+            var stage = new createjs.Stage("myCanvas");
+
+            // 円を追加する
+            var circle = new createjs.Shape();
+            circle.graphics
+                .beginFill("DarkRed")
+                .drawCircle(0, 0, 50);
+            circle.x = 0;
+            circle.y = 100;
+            stage.addChild(circle);
+
+            // アニメーションを設定する
+            createjs.Tween.get(circle)
+                .to({x: 640}, 2000) // 右に移動する
+                .call(step1)        // 関数を呼び出す
+                .to({x: 320}, 2000) // 左に半分戻る
+                .call(step2);       // 関数を呼び出す
+
+            function step1(){
+                circle.graphics
+                    .clear()
+                    .beginFill("blue")
+                    .drawCircle(0, 0, 50);
+            }
+            function step2(){
+                alert("トゥイーンが終わりました");
+            }
+
+            // ステージを自動更新する
+            createjs.Ticker.addEventListener("tick", stage);
+            createjs.Ticker.timingMode = createjs.Ticker.RAF;
+        }
+    </script>
+</body>
+</html>
