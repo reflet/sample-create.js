@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - ボタン</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>ボタン</h1>
+
+    <canvas id="myCanvas" width="640" height="80"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+    window.addEventListener("load", init);
+    function init() {
+        // キャンバスを準備する
+        var stage = new createjs.Stage("myCanvas");
+        stage.enableMouseOver(); // マウスオーバーを有効にする
+
+        // ボタン作成 (Blue)
+        var btn1 = createButton('Click Blue!', 150, 40, "#0275d8", "#ffffff");
+        btn1.x = 50;
+        btn1.y = 20;
+        btn1.addEventListener("click", function(event) {
+            alert("「" + event.currentTarget.name + "」がクリックされました。");
+        });
+        stage.addChild(btn1);
+
+        // ボタン作成 (Red)
+        var btn2 = createButton('Click Red!', 150, 40, "#d9534f", "#ffffff");
+        btn2.x = 240;
+        btn2.y = 20;
+        btn2.addEventListener("click", function(event) {
+            alert("「" + event.currentTarget.name + "」がクリックされました。");
+        });
+        stage.addChild(btn2);
+
+        // ボタン作成 (Green)
+        var btn3 = createButton('Click Green!', 150, 40, "#5cb85c", "#ffffff");
+        btn3.x = 430;
+        btn3.y = 20;
+        btn3.addEventListener("click", function(event) {
+            alert("「" + event.currentTarget.name + "」がクリックされました。");
+        });
+        stage.addChild(btn3);
+
+        // 時間経過イベント
+        createjs.Ticker.addEventListener("tick", function() {
+            stage.update(); // 描画更新
+        });
+    }
+
+    /**
+     * CreateJSのボタンを作成する関数です。
+     * この関数でボタンを作ったらステージに追加したり、クリックイベントを登録しましょう。
+     *
+     * @param {String} text     ラベル
+     * @param {Number} width    横幅(単位: px)
+     * @param {Number} height   高さ(単位: px)
+     * @param {String} keyColor ラベル色
+     * @param {String} bgColor  背景色
+     * @returns {createjs.Container} ボタンオブジェクト
+     */
+    function createButton(text, width, height, keyColor, bgColor) {
+        // コンテナ作成 (グループ化)
+        var button = new createjs.Container();
+        button.name = text;        // ボタンに名称を入れておく(参考までに)
+        button.cursor = "pointer"; // ホバー時にカーソルを変更する
+
+        // ボタン背景 (通常時)
+        var bgUp = new createjs.Shape();
+        bgUp.graphics
+            .setStrokeStyle(1.0)
+            .beginStroke(keyColor)
+            .beginFill(bgColor)
+            .drawRoundRect(0.5, 0.5, width - 1.0, height - 1.0, 4);
+        button.addChild(bgUp);
+        bgUp.visible = true;
+
+        // ボタン背景 (ロールオーバー)
+        var bgOver = new createjs.Shape();
+        bgOver.graphics
+            .beginFill(keyColor)
+            .drawRoundRect(0, 0, width, height, 4);
+        bgOver.visible = false;  // 非表示にする
+        button.addChild(bgOver);
+
+        // ボタンラベル
+        var label = new createjs.Text(text, "16px sans-serif", keyColor);
+        label.x = width / 2;  // 中央寄せ(X)
+        label.y = height / 2; // 中央寄せ(Y)
+        label.textAlign = "center";
+        label.textBaseline = "middle";
+        button.addChild(label);
+
+        // mouseoverイベント
+        button.addEventListener("mouseover", function(event) {
+            bgUp.visble = false;
+            bgOver.visible = true;
+            label.color = bgColor;
+        });
+        button.addEventListener("mouseout", function(event) {
+            bgUp.visble = true;
+            bgOver.visible = false;
+            label.color = keyColor;
+        });
+
+        return button;
+    }
+    </script>
+
+    <pre><code>
+    /**
+     * CreateJSのボタンを作成する関数です。
+     * この関数でボタンを作ったらステージに追加したり、クリックイベントを登録しましょう。
+     *
+     * @param {String} text     ラベル
+     * @param {Number} width    横幅(単位: px)
+     * @param {Number} height   高さ(単位: px)
+     * @param {String} keyColor ラベル色
+     * @param {String} bgColor  背景色
+     * @returns {createjs.Container} ボタンオブジェクト
+     */
+    function createButton(text, width, height, keyColor, bgColor) {
+        // コンテナ作成 (グループ化)
+        var button = new createjs.Container();
+        button.name = text;        // ボタンに名称を入れておく(参考までに)
+        button.cursor = "pointer"; // ホバー時にカーソルを変更する
+
+        // ボタン背景 (通常時)
+        var bgUp = new createjs.Shape();
+        bgUp.graphics
+            .setStrokeStyle(1.0)
+            .beginStroke(keyColor)
+            .beginFill(bgColor)
+            .drawRoundRect(0.5, 0.5, width - 1.0, height - 1.0, 4);
+        button.addChild(bgUp);
+        bgUp.visible = true;
+
+        // ボタン背景 (ロールオーバー)
+        var bgOver = new createjs.Shape();
+        bgOver.graphics
+            .beginFill(keyColor)
+            .drawRoundRect(0, 0, width, height, 4);
+        bgOver.visible = false;  // 非表示にする
+        button.addChild(bgOver);
+
+        // ボタンラベル
+        var label = new createjs.Text(text, "18px sans-serif", keyColor);
+        label.x = width / 2;  // 中央寄せ(X)
+        label.y = height / 2; // 中央寄せ(Y)
+        label.textAlign = "center";
+        label.textBaseline = "middle";
+        button.addChild(label);
+
+        // mouseoverイベント
+        button.addEventListener("mouseover", function(event) {
+            bgUp.visble = false;
+            bgOver.visible = true;
+            label.color = bgColor;
+        });
+        button.addEventListener("mouseout", function(event) {
+            bgUp.visble = true;
+            bgOver.visible = false;
+            label.color = keyColor;
+        });
+
+        return button;
+    }
+    </code></pre>
+</body>
+</html>
