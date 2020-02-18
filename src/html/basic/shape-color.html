@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - 色の指定</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>色の指定</h1>
+    <pre><code>
+    // 色の名前で指定 例) green, red, blue
+    // 16進数表記で指定 例) #00ff00, #ff0000, #0000FF
+    // RGB指定 例) createjs.Graphics.getRGB(255, 0, 0)
+    // HSL指定 例) createjs.Graphics.getHSL(255, 0, 0)
+    shape.graphics.beginFill("red");   // 赤い円
+    shape.graphics.beginFill("green"); // 緑の円
+    shape.graphics.beginFill("blue");  // 青い円
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="700"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        // 読み込みが終わってから初期化
+        window.addEventListener("load", init);
+        function init() {
+            // 初期化
+            var stage = new createjs.Stage("myCanvas");
+
+            // シェイプ作成 (赤い円)
+            var shape1 = new createjs.Shape();
+            shape1.graphics
+                .beginFill("red")
+                .drawCircle(100, 100, 50);
+            stage.addChild(shape1);
+
+            // シェイプ作成 (緑の円)
+            var shape2 = new createjs.Shape();
+            shape2.graphics
+                .beginFill("green")
+                .drawCircle(220, 100, 50);
+            stage.addChild(shape2);
+
+            // シェイプ作成 (青い円)
+            var shape3 = new createjs.Shape();
+            shape3.graphics
+                .beginFill("blue")
+                .drawCircle(340, 100, 50);
+            stage.addChild(shape3);
+
+            // ----------------------------------------------------
+            // HSLで指定する
+
+            // シェイプ作成 (赤い円)
+            var shape4 = new createjs.Shape();
+            shape4.graphics
+                .beginFill("#ff0000")
+                .drawCircle(100, 220, 50);
+            stage.addChild(shape4);
+
+            // シェイプ作成 (緑の円)
+            var shape5 = new createjs.Shape();
+            shape5.graphics
+                .beginFill("#008800")
+                .drawCircle(220, 220, 50);
+            stage.addChild(shape5);
+
+            // シェイプ作成 (青い円)
+            var shape6 = new createjs.Shape();
+            shape6.graphics
+                .beginFill("#0000ff")
+                .drawCircle(340, 220, 50);
+            stage.addChild(shape6);
+
+            // ----------------------------------------------------
+            // HSLで指定する
+
+            // 赤い円 (色相 (0〜360), 彩度 (0%〜100%), 明度 (0%〜100%))
+            var shape7 = new createjs.Shape();
+            shape7.graphics
+                .beginFill("hsl(0, 100%, 50%)")
+                .drawCircle(100, 340, 50);
+            stage.addChild(shape7);
+
+            // 明るい赤い円 (色相, 彩度, 明度)
+            var shape8 = new createjs.Shape();
+            shape8.graphics
+                .beginFill(createjs.Graphics.getHSL(0, 100, 80))
+                .drawCircle(100, 460, 50);
+            stage.addChild(shape8);
+
+            // 緑の円 (色相 (0〜360), 彩度 (0%〜100%), 明度 (0%〜100%))
+            var shape9 = new createjs.Shape();
+            shape9.graphics
+                .beginFill("hsl(120, 100%, 20%)")
+                .drawCircle(220, 340, 50);
+            stage.addChild(shape9);
+
+            // 明るい緑の円 (色相, 彩度, 明度)
+            var shape10 = new createjs.Shape();
+            shape10.graphics
+                .beginFill(createjs.Graphics.getHSL(120, 100, 80))
+                .drawCircle(220, 460, 50);
+            stage.addChild(shape10);
+
+            // 青い円 (色相 (0〜360), 彩度 (0%〜100%), 明度 (0%〜100%))
+            var shape11 = new createjs.Shape();
+            shape11.graphics
+                .beginFill("hsl(240, 100%, 50%)")
+                .drawCircle(340, 340, 50);
+            stage.addChild(shape11);
+
+            // 明るい青い円 (色相 (0〜360), 彩度 (0%〜100%), 明度 (0%〜100%))
+            var shape12 = new createjs.Shape();
+            shape12.graphics
+                .beginFill(createjs.Graphics.getHSL(240, 100, 80))
+                .drawCircle(340, 460, 50);
+            stage.addChild(shape12);
+
+            // 画面更新
+            stage.update();
+        }
+    </script>
+</body>
+</html>

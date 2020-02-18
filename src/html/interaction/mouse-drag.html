@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - マウスドラッグ</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>マウスドラッグ</h1>
+    <pre><code>
+    {オブジェクト}.addEventListener("mousedown", handleDown); // 押したときだけ一度だけ発生するイベント
+    {オブジェクト}.addEventListener("pressmove", handleMove); // マウスを移動したときに連続して発生するイベント
+    {オブジェクト}.addEventListener("pressup", handleUp);     // マウスを離したときに一度だけ発生するイベント
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="320"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンバス準備
+            var stage = new createjs.Stage("myCanvas");
+
+            // ドラッグした場所を保存する変数
+            var dragPointX;
+            var dragPointY;
+
+            // 円を追加する
+            var shape = new createjs.Shape();
+            shape.graphics
+                .beginFill("DarkRed")
+                .drawCircle(
+                    stage.canvas.width / 2,  // 画面中央に配置 (X)
+                    stage.canvas.height / 2, // 画面中央に配置 (Y)
+                    40                       // 半径
+                );
+            shape.addEventListener("mousedown", function(event) {
+                dragPointX = stage.mouseX - event.target.x; // 開始座標(X)
+                dragPointY = stage.mouseY - event.target.y; // 開始座標(Y)
+                event.target.alpha = 0.5;                   // 半透明にする
+            });
+            shape.addEventListener("pressmove", function(event) {
+                event.target.x = stage.mouseX - dragPointX;
+                event.target.y = stage.mouseY - dragPointY;
+            });
+            shape.addEventListener("pressup", function(event) {
+                event.target.alpha = 1.0; // 透明度を元に戻す
+            });
+            stage.addChild(shape);
+            stage.update();
+
+            // 時間経過
+            createjs.Ticker.addEventListener("tick", function() {
+                stage.update();
+            });
+        }
+    </script>
+</body>
+</html>

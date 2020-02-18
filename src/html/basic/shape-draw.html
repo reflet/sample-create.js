@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - 様々な形状</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre { width:1160px; }
+        pre, canvas { background: WhiteSmoke; }
+    </style>
+</head>
+<body>
+    <h1>様々な形状</h1>
+    <pre><code>
+    shape.graphics.drawCircle(50, 50, 50);                        // 円 (X座標,Y座標,半径)
+    shape.graphics.drawRect(50, 50, 50, 50);                      // 四角形 (X座標,Y座標,横幅,高さ)
+    shape.graphics.drawRoundRect(50, 50, 50, 50, 10);             // 角丸四角形 (X座標,Y座標,横幅,高さ,角丸の半径)
+    shape.graphics.drawRoundRectComplex(50,50,50,50,10,10,10,10); // 角丸四角形 (X座標,Y座標,横幅,高さ,半径(TL),半径(TR),半径(BR),半径(BL))
+    shape.graphics.drawPolyStar(50, 50, 50, 5, 0.4, -90);         // 多角形 (X座標,Y座標,半径,頂点数,谷の深さ,起点角)
+    </code></pre>
+
+    <canvas id="myCanvas" width="1160" height="700"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        // 読み込みが終わってから初期化
+        window.addEventListener("load", init);
+        function init() {
+            // 初期化
+            var stage = new createjs.Stage("myCanvas");
+
+            // 円 (Circle -  中心のX座標, 中心のY座標, 半径)
+            var shape1 = new createjs.Shape();
+            shape1.graphics
+                .beginFill("DarkRed")
+                .drawCircle(120, 120, 50);
+            stage.addChild(shape1);
+
+            // 四角形 (Rect - X座標, Y座標, 横幅, 高さ)
+            var shape2 = new createjs.Shape();
+            shape2.graphics
+                .beginFill("DarkRed")
+                .drawRect(240, 70, 100, 100);
+            stage.addChild(shape2);
+
+            // 角丸四角形 (RoundRect - X座標, Y座標, 横幅, 高さ, 角丸の半径)
+            var shape3 = new createjs.Shape();
+            shape3.graphics
+                .beginFill("DarkRed")
+                .drawRoundRect(420, 70, 100, 100, 15);
+            stage.addChild(shape3);
+
+            // 角丸四角形 (RoundRectComplex - X座標, Y座標, 横幅, 高さ, 半径(TL), 半径(TR), 半径(BR), 半径(BL))
+            var shape4 = new createjs.Shape();
+            shape4.graphics
+                .beginFill("DarkRed")
+                .drawRoundRectComplex(600,70,100,100,15,15,15,15);
+            stage.addChild(shape4);
+
+            // 多角形 (drawPolyStar - X座標, Y座標, 半径, 頂点数, 谷の深さ, 起点角)
+            var shape5 = new createjs.Shape();
+            shape5.graphics
+                .beginFill("DarkRed")
+                .drawPolyStar(120, 280, 50, 5, 0.4, -90);
+            stage.addChild(shape5);
+
+            // 任意の図形
+            var shape6 = new createjs.Shape();
+            shape6.graphics
+                .beginFill("DarkRed")
+                .moveTo(240, 220)  // 描き始め (座標: 240,280)
+                .lineTo(340, 220)  // 辺を描く (座標: 380,280)
+                .lineTo(240, 320)  // 辺を描く (座標: 310,360)
+                .lineTo(240, 220); // 辺を描く (座標: 240,280)
+            stage.addChild(shape6);
+
+            // 画面更新
+            stage.update();
+        }
+    </script>
+</body>
+</html>

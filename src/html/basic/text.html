@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - テキストの表示</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>テキストの表示</h1>
+    <pre><code>
+    var text = new createjs.Text("Hello World!", "18px serif", "DarkRed");
+    text.x = 20;
+    text.y = 20;
+    text.textAlign = 'center'; (初期値: left)
+    text.textBaseline = “top”; (初期値: top)
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="720"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        // 読み込みが終わってから初期化
+        window.addEventListener("load", init);
+        function init() {
+            // 初期化
+            var stage = new createjs.Stage("myCanvas");
+
+            // テキスト作成
+            var text = new createjs.Text("Hello World!", "18px serif", "DarkRed");
+            text.x = 20;
+            text.y = 20;
+            stage.addChild(text);
+
+            var i;
+
+            // 水平方向を揃える
+            function drawAlignText(i, align) {
+                // テキスト作成
+                var t = new createjs.Text(align.toUpperCase(), "18px sans-serif", "black");
+                t.textAlign = align;
+                stage.addChild(t);
+
+                // 背景を生成 (十字)
+                var s = new createjs.Shape();
+                s.graphics
+                    .setStrokeStyle(1)
+                    .beginStroke("DarkRed")
+                    .moveTo(-50, 0)
+                    .lineTo(+50, 0)
+                    .moveTo(0, -50)
+                    .lineTo(0, +50);
+                stage.addChild(s);
+
+                // 配置調整
+                t.x = s.x = (i % 3) * 150 + 150;
+                t.y = s.y = Math.floor(i / 3) * 150 + 120;
+            }
+            var arr = ["start", "end", "left", "right", "center"];
+            for (i = 0; i < arr.length; i++) {
+                drawAlignText(i, arr[i]);
+            }
+
+            // 垂直方向を揃える
+            function drawTextBaseLine(i, valign) {
+                // テキスト作成
+                var t = new createjs.Text(valign.toUpperCase(), "18px sans-serif", "#000000");
+                t.textBaseline = valign;
+                stage.addChild(t);
+
+                // 背景を生成 (十字)
+                var s = new createjs.Shape();
+                s.graphics
+                    .setStrokeStyle(1)
+                    .beginStroke("#FF0000")
+                    .moveTo(0, 0)
+                    .lineTo(+100, 0)
+                    .moveTo(0, -50)
+                    .lineTo(0, +50);
+                stage.addChild(s);
+
+                // 背景を生成 (十字)
+                t.x = s.x = (i % 3) * 150 + 100;
+                t.y = s.y = Math.floor(i / 3) * 150 + 460;
+            }
+            var arr2 = ["top", "hanging", "middle", "alphabetic", "ideographic", "bottom"];
+            for (i = 0; i < arr2.length; i++) {
+                drawTextBaseLine(i, arr2[i]);
+            }
+
+            // 画面更新
+            stage.update();
+        }
+    </script>
+</body>
+</html>

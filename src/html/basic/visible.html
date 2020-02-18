@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - 表示オブジェクト</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>表示オブジェクト</h1>
+    <pre><code>
+    object.x = 200;        // 配置座標(X)
+    object.y = 200;        // 配置座標(Y)
+    object.rotation = 45;  // 角度
+    object.alpha = 0.5;    // 透明度
+    object.visible = true; // 表示/非表示
+    object.scaleX = 0.5;   // スケール: 50%の幅に設定する
+    object.scaleY = 2.0;   // スケール: 200%の高さに設定する
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="540"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        // 読み込みが終わってから初期化
+        window.addEventListener("load", init);
+        function init() {
+            // 初期化
+            var stage = new createjs.Stage("myCanvas");
+
+            // シェイプ作成
+            var object = new createjs.Shape();
+            object.graphics
+                .beginFill("DarkRed")   // 色を塗る
+                .drawCircle(0, 0, 100); // 円を描く (中心のX座標, 中心のY座標, 半径)
+            object.x = 200;             // 配置座標(X)
+            object.y = 200;             // 配置座標(Y)
+            object.rotation = 45;       // 角度
+            object.alpha = 0.5;         // 透明度
+            object.visible = true;      // 表示/非表示
+            object.scaleX = 0.5;        // スケール: 50%の幅に設定する
+            object.scaleY = 2.0;        // スケール: 200%の高さに設定する
+            stage.addChild(object);
+
+            // 画面更新
+            stage.update();
+        }
+    </script>
+</body>
+</html>

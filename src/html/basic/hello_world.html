@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - 表示オブジェクト</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>こんにちは世界</h1>
+    <pre><code>
+    // キャンバス準備
+    var stage = new createjs.Stage("myCanvas");
+
+    // 円を作成する
+    var shape = new createjs.Shape();
+    shape.graphics
+        .beginFill("DarkRed")       // 赤色で描画するように設定
+        .drawCircle(200, 200, 100); // 半径 100px の円を描く
+    stage.addChild(shape);          // 表示リストに追加
+
+    // 画面更新
+    stage.update();
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="320"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンバス準備
+            var stage = new createjs.Stage("myCanvas");
+
+            // 円を作成する
+            var shape = new createjs.Shape();
+            shape.graphics
+                .beginFill("DarkRed")       // 赤色で描画するように設定
+                .drawCircle(200, 200, 100); // 半径 100px の円を描く
+            stage.addChild(shape);          // 表示リストに追加
+
+            // 更新
+            stage.update();
+        }
+    </script>
+</body>
+</html>

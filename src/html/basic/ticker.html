@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - tickイベント</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre { width: 640px; }
+        pre, canvas { background: WhiteSmoke; }
+    </style>
+</head>
+<body>
+    <h1>tickイベント</h1>
+    <pre><code>
+    createjs.Ticker.addEventListener("tick", function() {
+        // ここに処理を記載する
+        stage.update();
+    });
+    </code></pre>
+
+    <canvas id="myCanvas" width="640" height="300"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンパス作成
+            var stage = new createjs.Stage("myCanvas");
+
+            // 円を追加します
+            var shape = new createjs.Shape();
+            shape.graphics.beginFill("DarkRed").drawCircle(0, 150, 50);
+            stage.addChild(shape);
+
+            // tickイベントを監視します
+            createjs.Ticker.addEventListener("tick", handleTick);
+            function handleTick(){
+                shape.x += 2;
+                stage.update();
+            }
+        }
+    </script>
+</body>
+</html>

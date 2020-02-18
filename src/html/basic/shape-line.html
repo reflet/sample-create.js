@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - 線と塗り</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>線と塗り</h1>
+    <pre><code>
+    // シェイプ作成 (塗りつぶし)
+    shape.graphics.beginFill("DarkRed");   // 色を塗る
+    shape.graphics.drawCircle(0, 0, 80);   // 円を描く (中心のX座標, 中心のY座標, 半径)
+
+    // シェイプ作成 (枠線)
+    shape.graphics.beginStroke("DarkRed"); // 塗りの色を指定する
+    shape.graphics.setStrokeStyle(5);      // 線の幅を指定する
+    shape.graphics.drawCircle(0, 0, 80);   // 円を描く (中心のX座標, 中心のY座標, 半径)
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="540"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        // 読み込みが終わってから初期化
+        window.addEventListener("load", init);
+        function init() {
+            // 初期化
+            var stage = new createjs.Stage("myCanvas");
+
+            // シェイプ作成 (塗りつぶし)
+            var shape1 = new createjs.Shape();
+            shape1.graphics
+                .beginFill("DarkRed")      // 色を塗る
+                .drawCircle(200, 200, 80); // 円を描く (中心のX座標, 中心のY座標, 半径)
+            stage.addChild(shape1);
+
+            // シェイプ作成 (枠線)
+            var shape2 = new createjs.Shape();
+            shape2.graphics
+                .beginStroke("DarkRed")    // 塗りの色を指定する
+                .setStrokeStyle(5)         // 線の幅を指定する
+                .drawCircle(500, 200, 80); // 円を描く (中心のX座標, 中心のY座標, 半径)
+            stage.addChild(shape2);
+
+            // 画面更新
+            stage.update();
+        }
+    </script>
+</body>
+</html>

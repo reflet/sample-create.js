@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - タッチデバイス</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>タッチデバイス</h1>
+    <pre><code>
+    createjs.Touch.enable(stage); // タッチ操作を有効にします
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="320"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンバス準備
+            var stage = new createjs.Stage("myCanvas");
+
+            // タッチ操作をサポートしているブラウザーの場合
+            if (createjs.Touch.isSupported() === true) {
+                createjs.Touch.enable(stage); // タッチ操作を有効にします
+            }
+
+            // 円を追加する
+            var shape = new createjs.Shape();
+            shape.graphics
+                .beginFill("DarkRed")
+                .drawCircle(0, 0, 40);
+            stage.addChild(shape);
+
+            // tick イベントを登録する
+            createjs.Ticker.addEventListener("tick", function(event) {
+                shape.x = stage.mouseX;
+                shape.y = stage.mouseY;
+                stage.update();
+            });
+        }
+    </script>
+</body>
+</html>

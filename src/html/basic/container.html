@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - 親子構造</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:500px; }
+    </style>
+</head>
+<body>
+    <h1>親子構造</h1>
+    <pre><code>
+    var container = new createjs.Container();
+    </code></pre>
+
+    <canvas id="myCanvas" width="500" height="800"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンバス準備
+            var stage = new createjs.Stage("myCanvas");
+
+            // -------------------------------------------------------------------
+            // コンテナを作成
+            var container1 = new createjs.Container();
+            container1.x = 0;
+            container1.y = 0;
+            stage.addChild(container1);
+
+            // 1つ目の円を作追加する
+            var circle1 = new createjs.Shape();
+            circle1.graphics.beginFill("DarkRed").drawCircle(0, 0, 40);
+            circle1.y = 80;
+            container1.addChild(circle1);
+
+            // 2つ目の円を追加する
+            var circle2 = new createjs.Shape();
+            circle2.graphics.beginFill("Blue").drawCircle(0, 0, 40);
+            circle2.y = 180;
+            container1.addChild(circle2);
+
+            // コンテナを移動する
+            createjs.Ticker.addEventListener("tick", function() {
+                container1.x += 1;
+                if (container1.x > 500) {
+                    container1.x = 0; // 画面端まで移動したら、元に戻す
+                }
+                stage.update();
+            });
+
+            // -------------------------------------------------------------------
+            // コンテナを作成
+            var container2 = new createjs.Container();
+            container2.x = 220;
+            container2.y = 400;
+            stage.addChild(container2);
+
+            // 10個の円を追加する
+            for (var i = 0; i < 10; i++) {
+                var ball = new createjs.Shape();
+                ball.graphics
+                    .beginFill("DarkRed")
+                    .drawCircle(0, 0, 30);
+
+                // 円周上に配置
+                ball.x = 120 * Math.sin(i * 360 / 10 * Math.PI / 180);
+                ball.y = 120 * Math.cos(i * 360 / 10 * Math.PI / 180);
+
+                // グループに追加
+                container2.addChild(ball);
+            }
+
+            // コンテナを回転させる
+            createjs.Ticker.addEventListener("tick", function() {
+                container2.rotation += 1;
+                stage.update();
+            });
+        }
+    </script>
+</body>
+</html>

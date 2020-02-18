@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - クリックイベント</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>クリックイベント</h1>
+    <pre><code>
+    // clickイベントを登録する
+    {オブジェクト}.addEventListener("click", function(event) {
+        // 処理
+    });
+    </code></pre>
+
+<canvas id="myCanvas" width="960" height="320"></canvas>
+<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+<script>
+    window.addEventListener("load", init);
+    function init() {
+        // キャンバス準備
+        var stage = new createjs.Stage("myCanvas");
+
+        // 円を追加する
+        var circle = new createjs.Shape();
+        circle.graphics
+            .beginFill("DarkRed")
+            .drawCircle(60, 60, 40);
+        circle.addEventListener("click", function(event) {
+            alert("円がクリックされました");
+        });
+        stage.addChild(circle);
+        stage.update();
+
+        // 四角形を追加する
+        var rect = new createjs.Shape();
+        rect.graphics
+            .beginFill("blue")
+            .drawRect(140, 20, 80, 80);
+        rect.addEventListener("click", function(event) {
+            alert("四角形がクリックされました");
+        });
+        stage.addChild(rect);
+        stage.update();
+    }
+</script>
+</body>
+</html>

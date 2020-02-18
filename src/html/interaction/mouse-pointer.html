@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - マウス座標</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>マウス座標</h1>
+    <pre><code>
+    var mx = stage.mouseX; // マウス座標(X)
+    var my = stage.mouseY; // マウス座標(Y)
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="320"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンバス準備
+            var stage = new createjs.Stage("myCanvas");
+
+            // 円を追加する
+            var shape = new createjs.Shape();
+            shape.graphics
+                .beginFill("DarkRed")
+                .drawCircle(0, 0, 40);
+            stage.addChild(shape);
+            stage.update();
+
+            // tickイベントを登録する (マウスに追随する)
+            createjs.Ticker.addEventListener("tick", function(event) {
+                shape.x = stage.mouseX; // マウス座標(X)
+                shape.y = stage.mouseY; // マウス座標(Y)
+                stage.update();
+            });
+        }
+    </script>
+</body>
+</html>

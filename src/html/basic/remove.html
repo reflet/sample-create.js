@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - 削除</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre { width: 460px; }
+        pre, canvas { background: WhiteSmoke; }
+    </style>
+</head>
+<body>
+    <h1>削除</h1>
+    <pre><code>
+    var container = new createjs.Container();
+    </code></pre>
+
+    <canvas id="myCanvas" width="940" height="540"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンバス準備
+            var stage = new createjs.Stage("myCanvas");
+
+            // コンテナを作成
+            var container = new createjs.Container();
+            stage.addChild(container);
+
+            // 円を追加する(赤)
+            var circleRed = new createjs.Shape();
+            circleRed.graphics.beginFill("DarkRed").drawCircle(40, 40, 40);
+            container.addChild(circleRed);
+            circleRed.addEventListener("click", function(event) {
+                container.removeChild(event.target);
+                stage.update();
+            });
+
+            // 円を追加する(緑)
+            var circleGreen = new createjs.Shape();
+            circleGreen.graphics.beginFill("green").drawCircle(120, 40, 40);
+            container.addChild(circleGreen);
+            circleGreen.addEventListener("click", function(event) {
+                container.removeChild(event.target);
+                stage.update();
+            });
+
+            // 画面更新
+            stage.update();
+        }
+    </script>
+</body>
+</html>
