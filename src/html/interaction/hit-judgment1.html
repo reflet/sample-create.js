@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - 当たり判定(グローバル座標)</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>当たり判定(グローバル座標)</h1>
+    <pre><code>
+    // オブジェクトから見たマウス座標のローカル座標を求める
+    var point = {オブジェクト}.globalToLocal(stage.mouseX, stage.mouseY);
+
+    // マウス座標とオブジェクトが当たっているかを調べる
+    if ({オブジェクト}.hitTest(point.x, point.y) == true) {
+        console.log('当たっている');
+    } else {
+        console.log('当たっていない');
+    }
+    </code></pre>
+
+    <canvas id="myCanvas" width="960" height="560"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンパスを準備する
+            var stage = new createjs.Stage("myCanvas");
+
+            // 星を追加する
+            var poly = new createjs.Shape();
+            poly.graphics
+                .beginFill("DarkRed")
+                .drawPolyStar(0, 0, 75, 5, 0.6, -90);
+            poly.x = 200;
+            poly.y = 100;
+            stage.addChild(poly);
+
+            // 点を追加する
+            var dot = new createjs.Shape();
+            dot.graphics
+                .beginFill("blue")
+                .drawCircle(0, 0, 5);
+            stage.addChild(dot);
+
+            // 時間経過のイベント
+            createjs.Ticker.addEventListener("tick", function() {
+                // 点をマウスに追随させる
+                dot.x = stage.mouseX;
+                dot.y = stage.mouseY;
+
+                // 星からみた点の相対座標を取得する
+                var point = poly.globalToLocal(stage.mouseX, stage.mouseY);
+
+                // 星と点が当たっているかを判定する
+                if (poly.hitTest(point.x, point.y) === true) {
+                    poly.graphics
+                        .clear()
+                        .beginFill("DarkRed") // 赤色で塗る
+                        .drawPolyStar(0, 0, 75, 5, 0.6, -90);
+                } else {
+                    poly.graphics
+                        .clear()
+                        .beginFill("green")   // 緑色で塗る
+                        .drawPolyStar(0, 0, 75, 5, 0.6, -90);
+                }
+
+                // 描画更新
+                stage.update();
+            });
+        }
+    </script>
+</body>
+</html>
