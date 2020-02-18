@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - キーボードで船を操作する</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>キーボードで船を操作する</h1>
+
+    <canvas id="myCanvas" width="960" height="540"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            //  キャンバスを準備する
+            var stage = new createjs.Stage("myCanvas");
+
+            // 船を追加する
+            var angle = 0; // 船の角度
+            var speed = 0; // 船の移動の速さ
+            var ship = new createjs.Shape();
+            ship.graphics
+                .beginFill("DarkRed")
+                .moveTo(-10, +5)
+                .lineTo(-10, -5)
+                .lineTo(5, 0);
+            ship.x = stage.canvas.width / 2;  // 画面中央に配置(X)
+            ship.y = stage.canvas.height / 2; // 画面中央に配置(Y)
+            stage.addChild(ship);
+
+            // キーボードが押されているかの判定を行う
+            var isPressLeft  = false,
+                isPressRight = false,
+                isPressUp    = false,
+                isPressDown  = false;
+
+            // keydownイベント
+            window.addEventListener("keydown", function(event) {
+                var keyCode = event.keyCode;
+                if (keyCode === 39) isPressRight = true; // 右
+                if (keyCode === 37) isPressLeft = true;  // 左
+                if (keyCode === 40) isPressDown = true;  // 下
+                if (keyCode === 38) isPressUp = true;    // 上
+            });
+            window.addEventListener("keyup", function(event) {
+                var keyCode = event.keyCode;
+                if (keyCode === 39) isPressRight = false; // 右
+                if (keyCode === 37) isPressLeft = false;  // 左
+                if (keyCode === 40) isPressDown = false;  // 下
+                if (keyCode === 38) isPressUp = false;    // 上
+            });
+
+            // 時間経過
+            createjs.Ticker.addEventListener("tick", function() {
+                if (isPressRight === true) angle += 5; // 右へ旋回する
+                if (isPressLeft === true)  angle -= 5; // 左へ旋回する
+                if (isPressDown === true)  speed -= 1; // アクセル(-)
+                if (isPressUp === true)    speed += 1; // アクセル(+)
+
+                // 船の角度を設定する
+                ship.rotation = angle;
+
+                // 角度をラジアンに変換する
+                var radian = angle * Math.PI / 180;
+
+                // 船の位置を更新する
+                ship.x += speed * Math.cos(radian); // スピードと方向から座標(X)を計算する
+                ship.y += speed * Math.sin(radian); // スピードと方向から座標(Y)を計算する
+
+                // 摩擦
+                speed *= 0.90;
+
+                // 画面端の処理を入れる
+                if (ship.x < 0) ship.x = 0;
+                if (ship.x > stage.canvas.width) ship.x = stage.canvas.width;
+                if (ship.y < 0) ship.y = 0;
+                if (ship.y > stage.canvas.height) ship.y = stage.canvas.height;
+
+                // 画面更新
+                stage.update();
+            });
+        }
+    </script>
+</body>
+</html>

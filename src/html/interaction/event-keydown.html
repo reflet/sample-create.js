@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - キーボードイベント</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>キーボードイベント</h1>
+    <pre><code>
+    window.addEventListener("keydown", function(event) {
+        // キーコード(どのキーが押されたか)を取得
+        var keyCode = event.keyCode;
+        if (keyCode === 39) {
+            console.log("押されたキー : 右 (" + keyCode + ")");
+        } else if (keyCode === 37) {
+            console.log("押されたキー : 左 (" + keyCode + ")");
+        } else if (keyCode === 38) {
+            console.log("押されたキー : 上 (" + keyCode + ")");
+        } else if (keyCode === 40) {
+            console.log("押されたキー : 下 (" + keyCode + ")");
+        }
+    });
+    window.addEventListener("keyup", function(event) {
+        console.log("キーボードが離された");
+    });
+    </code></pre>
+
+    <canvas id="myCanvas" width="640" height="80"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+    window.addEventListener("load", init);
+    function init() {
+        window.addEventListener("keydown", function(event) {
+            // キーコード(どのキーが押されたか)を取得
+            var keyCode = event.keyCode;
+            if (keyCode === 39) {
+                console.log("押されたキー : 右 (" + keyCode + ")");
+            } else if (keyCode === 37) {
+                console.log("押されたキー : 左 (" + keyCode + ")");
+            } else if (keyCode === 38) {
+                console.log("押されたキー : 上 (" + keyCode + ")");
+            } else if (keyCode === 40) {
+                console.log("押されたキー : 下 (" + keyCode + ")");
+            }
+        });
+        window.addEventListener("keyup", function(event) {
+            console.log("キーボードが離された");
+        });
+    }
+    </script>
+</body>
+</html>
