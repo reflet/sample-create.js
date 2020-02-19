@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - サンプル(パズル)</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre { width: 1000px; }
+        pre, canvas { background: WhiteSmoke; }
+    </style>
+</head>
+<body>
+    <h1>サンプル(パズル)</h1>
+    <canvas id="myCanvas" width="1000" height="540"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンパスを準備する
+            var stage = new createjs.Stage("myCanvas");
+
+            // 背景を追加する
+            var bg = new createjs.Shape();
+            bg.graphics
+                .setStrokeStyle(2)
+                .beginStroke("gray")
+                .beginFill("lightgray")
+                .drawRect(200, 50, 760, 440);
+            stage.addChild(bg);
+
+            // 土台(円)を追加する
+            var baseCircle = new createjs.Shape();
+            baseCircle.graphics
+                .setStrokeStyle(2)
+                .beginStroke("gray")
+                .beginFill("white")
+                .drawCircle(0, 0, 50);
+            baseCircle.x = 400;
+            baseCircle.y = 200;
+            stage.addChild(baseCircle);
+
+            // 土台(四角)を追加する
+            var baseRect = new createjs.Shape();
+            baseRect.graphics
+                .setStrokeStyle(2)
+                .beginStroke("gray")
+                .beginFill("white")
+                .drawRect(-50, -50, 100, 100);
+            baseRect.x = 500;
+            baseRect.y = 300;
+            stage.addChild(baseRect);
+
+            // 土台(星)を追加する
+            var baseStar = new createjs.Shape();
+            baseStar.graphics
+                .setStrokeStyle(2)
+                .beginStroke("gray")
+                .beginFill("white")
+                .drawPolyStar(0, 0, 50, 5, 0.6, -90);
+            baseStar.x = 700;
+            baseStar.y = 250;
+            stage.addChild(baseStar);
+
+            // ピース(円)を追加する
+            var pieceCircle = new createjs.Shape();
+            pieceCircle.graphics
+                .beginFill("DarkRed")
+                .drawCircle(0, 0, 50);
+            pieceCircle.x = 100;
+            pieceCircle.y = 100;
+            stage.addChild(pieceCircle);
+
+            // ピース(四角)を追加する
+            var pieceRect = new createjs.Shape();
+            pieceRect.graphics
+                .beginFill("green")
+                .drawRect(-50, -50, 100, 100);
+            pieceRect.x = 100;
+            pieceRect.y = 200;
+            stage.addChild(pieceRect);
+
+            // ピース(星)を追加する
+            var pieceStar = new createjs.Shape();
+            pieceStar.graphics
+                .beginFill("blue")
+                .drawPolyStar(0, 0, 50, 5, 0.6, -90);
+            pieceStar.x = 100;
+            pieceStar.y = 300;
+            stage.addChild(pieceStar);
+
+            // マウスイベントを登録する
+            pieceCircle.addEventListener("mousedown", handleMouseDown);
+            pieceRect.addEventListener("mousedown", handleMouseDown);
+            pieceStar.addEventListener("mousedown", handleMouseDown);
+
+            function handleMouseDown(event) {
+                var piece = event.currentTarget;
+
+                // 目標の対象を判定する
+                var targetBase;
+                if (piece === pieceCircle) {
+                    targetBase = baseCircle;
+                }
+                if (piece === pieceStar) {
+                    targetBase = baseStar;
+                }
+                if (piece === pieceRect) {
+                    targetBase = baseRect;
+                }
+
+                // マウスが押された場所を保存しておく
+                var mouseDownX = stage.mouseX - piece.x;
+                var mouseDownY = stage.mouseY - piece.y;
+
+                // ドラッグ関連イベントを登録する
+                piece.addEventListener("pressmove", handlePressMove);
+                piece.addEventListener("pressup", handlePressUp);
+
+                function handlePressMove(event) {
+                    // マウスの座標に追随する
+                    // ※ ただしマウスダウンした場所のズレを補正する
+                    piece.x = stage.mouseX - mouseDownX;
+                    piece.y = stage.mouseY - mouseDownY;
+                }
+
+                function handlePressUp(event) {
+                    // マウスの座標に追随
+                    handlePressMove(event);
+
+                    // マウスアップされたときに、目標のシェイプとの当たり判定をとる
+                    var pt = targetBase.localToLocal(0, 0, piece);
+                    if (piece.hitTest(pt.x, pt.y) === true) {
+                        // 吸着させる
+                        piece.x = targetBase.x;
+                        piece.y = targetBase.y;
+                    }
+
+                    // ドラッグ関連イベントを解除する
+                    piece.removeEventListener("pressmove", handlePressMove);
+                    piece.removeEventListener("pressup", handlePressUp);
+                }
+            }
+
+            // 時間経過イベント
+            createjs.Ticker.addEventListener("tick", function(event) {
+                // 描画更新
+                stage.update();
+            });
+        }
+    </script>
+
+    <pre><code>
+    //
+    </code></pre>
+</body>
+</html>

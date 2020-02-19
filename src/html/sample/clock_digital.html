@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>基礎 - サンプル(デジタル時計)</title>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style type="text/css">
+        body { margin: 0; padding: 0; }
+        pre, canvas { background: WhiteSmoke; width:960px; }
+    </style>
+</head>
+<body>
+    <h1>サンプル(デジタル時計)</h1>
+
+    <canvas id="myCanvas" width="960" height="160"></canvas>
+    <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+    <script>
+        window.addEventListener("load", init);
+        function init() {
+            // キャンパスを準備する
+            var stage = new createjs.Stage("myCanvas");
+
+            // ラベルを追加する
+            var label = new createjs.Text("", "80px sans-serif", "red");
+            label.x = stage.canvas.width / 2;  // 画面中央に配置(X)
+            label.y = stage.canvas.height / 2; // 画面中央に配置(Y)
+            label.textAlign = 'center';        // センター寄せ
+            label.textBaseline = 'middle';     // 上下中央
+            stage.addChild(label);
+
+            // 時間経過のイベント
+            createjs.Ticker.addEventListener("tick", function() {
+                // 時間を2桁の数値で生成する
+                var now = new Date(),
+                    h = ('00' + now.getHours()).slice(-2),   // 時(00〜23)
+                    m = ('00' + now.getMinutes()).slice(-2), // 分(00〜59)
+                    s = ('00' + now.getSeconds()).slice(-2); // 秒(00〜59)
+
+                // ラベルの文字列を更新する
+                label.text = h + ":" + m + ":" + s;
+
+                // 描画更新
+                stage.update();
+            });
+        }
+    </script>
+
+    <pre><code>
+    // ラベルを追加する
+    var label = new createjs.Text("", "80px sans-serif", "red");
+    stage.addChild(label);
+
+    // 時間経過のイベント
+    createjs.Ticker.addEventListener("tick", function() {
+        // 時間を2桁の数値で生成する
+        var now = new Date(),
+            h = ('00' + now.getHours()).slice(-2),   // 時(00〜23)
+            m = ('00' + now.getMinutes()).slice(-2), // 分(00〜59)
+            s = ('00' + now.getSeconds()).slice(-2); // 秒(00〜59)
+
+        // ラベルの文字列を更新する
+        label.text = h + ":" + m + ":" + s;
+
+        // 描画更新
+        stage.update();
+    });
+    </code></pre>
+</body>
+</html>
